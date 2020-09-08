@@ -206,3 +206,25 @@ class LineBallTranslator {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    animator : Animator = new Animator()
+    lbt : LineBallTranslator = new LineBallTranslator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.lbt.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.lbt.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.lbt.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
