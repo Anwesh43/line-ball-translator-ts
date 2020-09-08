@@ -1,13 +1,11 @@
-import { number } from "yargs"
-
 const w : number = window.innerWidth 
 const h : number = window.innerHeight
 const parts : number = 5  
 const scGap : number = 0.02 / parts 
 const strokeFactor : number = 90 
-const delay : number = 20
-const rFactor : number = 12.2  
-const lineFactor : number = 8 
+const delay : number = 25
+const rFactor : number = 17.2  
+const lineFactor : number = 3.2
 const colors : Array<string> = ["indigo", "green", "purple", "teal", "#ff5722"]
 const backColor : string = "#BDBDBD"
 
@@ -55,7 +53,7 @@ class DrawingUtil {
         context.translate(-(w - lineSize) * (1 - sf2), 0)
         DrawingUtil.drawLine(context, 0, 0, lineSize * sf1, 0)
         context.restore()
-        DrawingUtil.drawCircle(context, -r - (lineSize / 2) * sf3, -r, r * sf1)
+        DrawingUtil.drawCircle(context, lineSize - r - (lineSize / 2) * sf3, -r, r * sf1)
         context.restore()
     }
 
@@ -82,6 +80,8 @@ class Stage {
     }
 
     render() {
+        this.context.fillStyle = backColor 
+        this.context.fillRect(0, 0, w, h)
         this.renderer.render(this.context)
     }
 
@@ -157,7 +157,7 @@ class LBTNode {
 
     addNeighbor() {
         if (this.i < colors.length - 1) {
-            this.next = new LBTNode(0)
+            this.next = new LBTNode(this.i + 1)
             this.next.prev = this 
         }
     }
